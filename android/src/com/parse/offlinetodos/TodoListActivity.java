@@ -155,6 +155,12 @@ public class TodoListActivity extends Activity {
 			}
 		}
 
+        if (item.getItemId() == R.id.send_msg) {
+            Log.d("TodoListActivity", "reached inside send_msg");
+            startActivityForResult(new Intent(this, NewSendMsgActivity.class),
+                    EDIT_ACTIVITY_CODE);
+        }
+
 		if (item.getItemId() == R.id.action_sync) {
 			syncTodosToParse();
 		}
