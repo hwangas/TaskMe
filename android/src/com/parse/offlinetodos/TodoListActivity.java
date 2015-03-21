@@ -59,8 +59,6 @@ public class TodoListActivity extends Activity {
 		noTodosView = (LinearLayout) findViewById(R.id.no_todos_view);
 		todoListView.setEmptyView(noTodosView);
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
-        MenuItem goToFriends = (MenuItem) findViewById(R.id.Contacts);
-
 
 
 
@@ -154,19 +152,16 @@ public class TodoListActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == R.id.action_new) {
+
+
+
+        if (item.getItemId() == R.id.action_new) {
 			// Make sure there's a valid user, anonymous
 			// or regular
 			if (ParseUser.getCurrentUser() != null) {
 				startActivityForResult(new Intent(this, NewTodoActivity.class),
 						EDIT_ACTIVITY_CODE);
 			}
-
-            if(item.getItemId() == R.id.Contacts)
-            {
-                Intent intent = new Intent(this, FriendActivity.class);
-                startActivity(intent);
-            }
 		}
 
         if (item.getItemId() == R.id.send_msg) {
