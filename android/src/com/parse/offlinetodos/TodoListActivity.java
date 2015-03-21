@@ -62,13 +62,13 @@ public class TodoListActivity extends Activity {
         MenuItem goToFriends = (MenuItem) findViewById(R.id.Contacts);
 
         goToFriends.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
 
-            public boolean onMenuItemClick(MenuItem view) {
-                Intent toContactsScreen = new Intent(getBaseContext(), FriendActivity.class);
-                startActivity(toContactsScreen);
                 return true;
             }
         });
+
 
 		// Set up the Parse query to use in the adapter
         // QUERY STUFF LOOK AT SEE HOW THEY DO MODIFY
