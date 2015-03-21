@@ -47,6 +47,8 @@ public class FriendActivity extends Activity {
     private Button buttonShowIme;
     private LayoutInflater inflater;
     private ParseQueryAdapter<Friend> friendListAdapter;
+    private ParseQueryAdapter.QueryFactory<Friend> friendQueryFactory;
+    private ListView friendListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,10 @@ public class FriendActivity extends Activity {
         Button action_friend = (Button)findViewById(R.id.action_friend);
         ListView list = (ListView)findViewById(R.id.friendListView);
 
+        getFriend();
+
         // Set up the Parse query to use in the adapter
-        ParseQueryAdapter.QueryFactory<Friend> friendQueryFactory = new ParseQueryAdapter.QueryFactory<Friend>() {
+        friendQueryFactory = new ParseQueryAdapter.QueryFactory<Friend>() {
             public ParseQuery<Friend> create() {
                 ParseQuery<Friend> query = Friend.getQuery();
                 query.orderByDescending("createdAt");
@@ -65,7 +69,7 @@ public class FriendActivity extends Activity {
                 return query;
             }
         };
-
+/*
         // Set up the adapter
         inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         friendListAdapter = new FriendListAdapter(this, friendQueryFactory);
@@ -73,7 +77,8 @@ public class FriendActivity extends Activity {
         // Attach the query adapter to the view
         ListView friendListView = (ListView) findViewById(R.id.friendListView);
         friendListView.setAdapter(friendListAdapter);
-
+*/
+        friendListView = refresh();
         friendListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -94,7 +99,19 @@ public class FriendActivity extends Activity {
             }
         });
     }
-//hi
+
+    public ListView refresh()
+    {
+        // Set up the adapter
+        inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        friendListAdapter = new FriendListAdapter(this, friendQueryFactory);
+
+        // Attach the query adapter to the view
+        ListView friendListView = (ListView) findViewById(R.id.friendListView);
+        friendListView.setAdapter(friendListAdapter);
+        return friendListView;
+    }
+
 /*
     private void openEditView(Todo todo) {
         Intent i = new Intent(this, NewTodoActivity.class);
@@ -102,6 +119,22 @@ public class FriendActivity extends Activity {
         startActivityForResult(i, EDIT_ACTIVITY_CODE);
     }
 */
+
+    public void getFriend()
+    {
+        ParseQuery<Friend> person = ParseQuery.getQuery("Friend");
+        person.whereEqualTo("person", ParseUser.getCurrentUser());
+        person.getFirstInBackground(new GetCallback<Friend>() {
+            public void done(Friend f, com.parse.ParseException e) {
+                if(f == null) {
+                    friend_ = null;
+                } else {
+                    friend_ = f;
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
@@ -114,7 +147,9 @@ public class FriendActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId()) {
+
             case R.id.action_friend:
+            /*
                 ParseQuery<Friend> person = ParseQuery.getQuery("Friend");
                 person.whereEqualTo("person", ParseUser.getCurrentUser());
                 person.getFirstInBackground(new GetCallback<Friend>() {
@@ -132,9 +167,25 @@ public class FriendActivity extends Activity {
                                         Log.d("onOptionsItemSelected", "u fuked up");
                                     } else {
                                         friend_.addFriend(parseUser);
+
                                     }
                                 }
                             });
+                        }
+                    }
+                });
+                */
+                ParseQuery<ParseUser> friend = ParseQuery.getQuery("ParseUser");
+                friend.whereEqualTo("username", ((EditText )findViewById(R.id.edit_text_2)).getText().toString());
+                friend.getFirstInBackground(new GetCallback<ParseUser>() {
+                    @Override
+                    public void done(ParseUser parseUser, com.parse.ParseException e) {
+                        if(parseUser == null) {
+                            Log.d("onOptionsItemSelected", "u fuked up");
+                            //throw new exception(e);
+                        } else {
+                            friend_.addFriend(parseUser);
+                            friendListView = refresh();
                         }
                     }
                 });
