@@ -8,5 +8,7 @@
     <color name="com_parse_ui_parse_login_help_button_label_focus">#CCCCCC</color>
     <color name="com_parse_ui_parse_login_text_hint">#AAAAAA</color>
     <color name="com_parse_ui_parse_login_display_text">@android:color/black</color>
+    <color name="sky_blue">#87cefa</color>
+    <color name="no_items">#4b3528</color>
 
 </resources>
