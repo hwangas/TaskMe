@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
@@ -60,6 +61,15 @@ public class TodoListActivity extends Activity {
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
         MenuItem goToFriends = (MenuItem) findViewById(R.id.Contacts);
 
+        goToFriends.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem view) {
+                Intent toContactsScreen = new Intent(getBaseContext(), FriendActivity.class);
+                startActivity(toContactsScreen);
+                return true;
+            }
+        });
+
 		// Set up the Parse query to use in the adapter
         // QUERY STUFF LOOK AT SEE HOW THEY DO MODIFY
 		ParseQueryAdapter.QueryFactory<Todo> factory = new ParseQueryAdapter.QueryFactory<Todo>() {
@@ -100,6 +110,7 @@ public class TodoListActivity extends Activity {
 			updateLoggedInInfo();
 		}
 	}
+
 
 	private void updateLoggedInInfo() {
 		if (!ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {

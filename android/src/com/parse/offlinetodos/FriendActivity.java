@@ -31,6 +31,7 @@ public class FriendActivity extends Activity {
         setContentView(R.layout.friend_activity);
 
         ListView list = (ListView)findViewById(R.id.listView);
+        MenuItem goToList = (MenuItem) findViewById(R.id.todo_list);
         ArrayList <String> aList = new ArrayList<String>();
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
 
@@ -40,6 +41,14 @@ public class FriendActivity extends Activity {
                                     long id) {
 
 
+            }
+        });
+
+        goToList.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem view) {
+                finish();
+                return true;
             }
         });
     }
