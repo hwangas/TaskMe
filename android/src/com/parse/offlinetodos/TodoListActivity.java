@@ -155,6 +155,8 @@ public class TodoListActivity extends Activity {
 			}
 		}
 
+        //if (item.getItemId() == R.id.a)
+
 		if (item.getItemId() == R.id.action_sync) {
 			syncTodosToParse();
 		}

@@ -25,8 +25,6 @@ public class FriendActivity extends Activity {
     private KeyListener originalKeyListener;
     private Button buttonShowIme;
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
