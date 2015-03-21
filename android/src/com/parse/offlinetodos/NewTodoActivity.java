@@ -41,7 +41,7 @@ public class NewTodoActivity extends Activity {
 			todoId = getIntent().getExtras().getString("ID");
 		}
 
-		todoText = (EditText) findViewById(R.id.todo_text);
+        todoText = (EditText) findViewById(R.id.todo_text);
 		saveButton = (Button) findViewById(R.id.saveButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
         new_todo_time_picker = (TimePicker) findViewById(R.id.new_todo_time_picker);

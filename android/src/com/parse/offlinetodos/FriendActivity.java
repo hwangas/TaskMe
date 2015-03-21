@@ -42,10 +42,9 @@ public class FriendActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_activity);
 
-        ListView list = (ListView)findViewById(R.id.listView);
-        MenuItem goToList = (MenuItem) findViewById(R.id.todo_list);
-        ArrayList <String> aList = new ArrayList<String>();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
+
+        ListView list = (ListView)findViewById(R.id.friendListView);
+        //ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, aList);
 
 
         // Set up the Parse query to use in the adapter
@@ -59,16 +58,14 @@ public class FriendActivity extends Activity {
         };
 
         // Set up the adapter
-        inflater = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         friendListAdapter = new FriendListAdapter(this, friendQueryFactory);
 
         // Attach the query adapter to the view
-        ListView todoListView = (ListView) findViewById(R.id.todo_list_view);
-        todoListView.setAdapter(friendListAdapter);
+        ListView friendListView = (ListView) findViewById(R.id.friendListView);
+        friendListView.setAdapter(friendListAdapter);
 
-
-        todoListView.setOnItemClickListener(new OnItemClickListener() {
+        friendListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -81,14 +78,6 @@ public class FriendActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-            }
-        });
-
-        goToList.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem view) {
-                finish();
-                return true;
             }
         });
     }
@@ -131,29 +120,24 @@ public class FriendActivity extends Activity {
     private class FriendListAdapter extends ParseQueryAdapter<Friend> {
 
         public FriendListAdapter(Context context,
-                               ParseQueryAdapter.QueryFactory<Friend> queryFactory) {
+                                 ParseQueryAdapter.QueryFactory<Friend> queryFactory) {
             super(context, queryFactory);
         }
 
         //@Override
-        public View getItemView(Todo todo, View view, ViewGroup parent) {
+        public View getItemView(Friend friend, View view, ViewGroup parent) {
             ViewHolder holder;
             if (view == null) {
-                view = inflater.inflate(R.layout.list_item_todo, parent, false);
+                view = inflater.inflate(R.layout.friend_activity, parent, false);
                 holder = new ViewHolder();
-                holder.todoTitle = (TextView) view
-                        .findViewById(R.id.todo_title);
+                holder.todoTitle = (TextView) view.findViewById(R.id.edit_text_2);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-            TextView todoTitle = holder.todoTitle;
-            todoTitle.setText(todo.getTitle());
-            if (todo.isDraft()) {
-                todoTitle.setTypeface(null, Typeface.ITALIC);
-            } else {
-                todoTitle.setTypeface(null, Typeface.NORMAL);
-            }
+            TextView friend_title = holder.todoTitle;
+            friend_title.setText((String) friend.get("name"));
+            friend_title.setTypeface(null, Typeface.NORMAL);
             return view;
         }
     }

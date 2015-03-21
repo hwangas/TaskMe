@@ -63,7 +63,6 @@ public class TodoListActivity extends Activity {
 
 
 
-
 		// Set up the Parse query to use in the adapter
 		ParseQueryAdapter.QueryFactory<Todo> factory = new ParseQueryAdapter.QueryFactory<Todo>() {
 			public ParseQuery<Todo> create() {
@@ -156,13 +155,8 @@ public class TodoListActivity extends Activity {
 
         Log.d("onOptionsItemSelected", i + "");
         Log.d("R.id.activity_add_friend", R.id.activity_add_friend + "");
-        /*
-        if(item.getItemId() == R.id.activity_add_friend && (ParseUser.getCurrentUser().isAuthenticated()))
-        {
-            Intent intent = new Intent(this, FriendActivity.class);
-            startActivity(intent);
-        }
-*/
+
+
         if (item.getItemId() == R.id.action_login) {
             ParseLoginBuilder builder = new ParseLoginBuilder(this);
             startActivityForResult(builder.build(), LOGIN_ACTIVITY_CODE);
@@ -175,6 +169,11 @@ public class TodoListActivity extends Activity {
                 startActivityForResult(new Intent(this, NewTodoActivity.class),
                         EDIT_ACTIVITY_CODE);
 
+            }
+            else if(item.getItemId() == R.id.activity_add_friend)
+            {
+                Intent intent = new Intent(this, FriendActivity.class);
+                startActivity(intent);
             }
 
             else if (item.getItemId() == R.id.send_msg) {
