@@ -34,6 +34,10 @@ public class Todo extends ParseObject {
 
     public void setMonth(int month) { put("month", month); }
 
+    public void setStatus(boolean status) { put("status", false); }
+
+    public boolean getStatus(boolean status) { return getBoolean("status"); }
+
     public void setDay(int day) { put("day", day); }
 
     public void setYear(int year) { put("year", year); }
