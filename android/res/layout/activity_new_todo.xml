@@ -4,38 +4,55 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:text="@string/todo_prompt" />
+    <ScrollView android:id="@+id/new_todo_scroll_view"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
 
-    <EditText
-        android:id="@+id/todo_text"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingTop="30dp" >
-    </EditText>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <TimePickerDialog
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:text="@string/todo_prompt" />
 
-        </TimePickerDialog>
+        <EditText
+            android:id="@+id/todo_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="30dp" >
+        </EditText>
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save" />
+        <TimePicker
+            android:id="@+id/new_todo_time_picker"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        </TimePicker>
 
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:visibility="invisible" />
+        <DatePicker
+            android:id="@+id/new_todo_date_picker"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        </DatePicker>
 
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:visibility="invisible" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
