@@ -1,6 +1,10 @@
 package com.parse.offlinetodos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.method.KeyListener;
 import android.view.Menu;
@@ -74,7 +78,29 @@ public class FriendActivity extends Activity {
 
     public void openAddFriend()
     {
-        // DO THE FRAGMENT
+
+       final EditText input = (EditText)findViewById(R.id.edit_text_2);
+
+         class FireMissilesDialogFragment extends DialogFragment {
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                // Use the Builder class for convenient dialog construction
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(input)
+                        .setPositiveButton("Add Friend", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                String friend = input.getText().toString();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                return builder.create();
+            }
+        }
 
     }
 
