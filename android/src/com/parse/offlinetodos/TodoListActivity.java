@@ -61,13 +61,7 @@ public class TodoListActivity extends Activity {
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
         MenuItem goToFriends = (MenuItem) findViewById(R.id.Contacts);
 
-        goToFriends.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
 
-                return true;
-            }
-        });
 
 
 		// Set up the Parse query to use in the adapter
@@ -167,6 +161,12 @@ public class TodoListActivity extends Activity {
 				startActivityForResult(new Intent(this, NewTodoActivity.class),
 						EDIT_ACTIVITY_CODE);
 			}
+
+            if(item.getItemId() == R.id.Contacts)
+            {
+                Intent intent = new Intent(this, FriendActivity.class);
+                startActivity(intent);
+            }
 		}
 
         if (item.getItemId() == R.id.send_msg) {
