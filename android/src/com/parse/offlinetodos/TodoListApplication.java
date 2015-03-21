@@ -17,6 +17,7 @@ public class TodoListApplication extends Application {
 		
 		// add Todo subclass
 		ParseObject.registerSubclass(Todo.class);
+        ParseObject.registerSubclass(Friend.class);
 		
 		// enable the Local Datastore
 		Parse.enableLocalDatastore(getApplicationContext());

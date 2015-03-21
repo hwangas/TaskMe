@@ -1,5 +1,6 @@
 package com.parse.offlinetodos;
 
+import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -9,16 +10,20 @@ import org.json.JSONArray;
 /**
  * Created by Anna Hwang on 3/21/2015.
  */
+@ParseClassName("Friend")
 public class Friend extends ParseObject {
 
-    public void initFriend(ParseUser person) {
-        put("name", person.getUsername());
-        put("friends", new JSONArray());
+    private JSONArray arr = new JSONArray();
+    private ParseUser person = null;
+
+    public Friend(){}
+
+    public Friend(ParseUser person_) {
+        person = person_;
     }
 
-    public void addFriend(ParseUser person, ParseUser friend) {
-        JSONArray friends = person.getJSONArray("friends");
-        friends.put(friend.getUsername());
+    public void addFriend(ParseUser friend) {
+        arr.put(friend);
     }
 
     /*
@@ -36,4 +41,5 @@ public class Friend extends ParseObject {
     public static ParseQuery<Friend> getQuery() {
         return ParseQuery.getQuery(Friend.class);
     }
+
 }

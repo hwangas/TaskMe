@@ -61,8 +61,6 @@ public class TodoListActivity extends Activity {
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
         //MenuItem goToFriends = (MenuItem) findViewById(R.id.activity_add_friend);
 
-
-
 		// Set up the Parse query to use in the adapter
 		ParseQueryAdapter.QueryFactory<Todo> factory = new ParseQueryAdapter.QueryFactory<Todo>() {
 			public ParseQuery<Todo> create() {
