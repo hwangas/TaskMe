@@ -58,6 +58,7 @@ public class TodoListActivity extends Activity {
 		noTodosView = (LinearLayout) findViewById(R.id.no_todos_view);
 		todoListView.setEmptyView(noTodosView);
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
+        MenuItem goToFriends = (MenuItem) findViewById(R.id.Contacts);
 
 		// Set up the Parse query to use in the adapter
         // QUERY STUFF LOOK AT SEE HOW THEY DO MODIFY
