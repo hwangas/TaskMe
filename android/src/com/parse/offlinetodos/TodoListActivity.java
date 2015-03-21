@@ -59,8 +59,7 @@ public class TodoListActivity extends Activity {
 		noTodosView = (LinearLayout) findViewById(R.id.no_todos_view);
 		todoListView.setEmptyView(noTodosView);
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
-
-
+        //MenuItem goToFriends = (MenuItem) findViewById(R.id.activity_add_friend);
 
 		// Set up the Parse query to use in the adapter
 		ParseQueryAdapter.QueryFactory<Todo> factory = new ParseQueryAdapter.QueryFactory<Todo>() {
@@ -71,8 +70,6 @@ public class TodoListActivity extends Activity {
 				return query;
 			}
 		};
-
-
 
         // Set up the adapter
 		inflater = (LayoutInflater) this
@@ -152,48 +149,57 @@ public class TodoListActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+
+        Log.d("onOptionsItemSelected", i + "");
+        Log.d("R.id.activity_add_friend", R.id.activity_add_friend + "");
 
 
-
-        if (item.getItemId() == R.id.action_new) {
-			// Make sure there's a valid user, anonymous
-			// or regular
-			if (ParseUser.getCurrentUser() != null) {
-				startActivityForResult(new Intent(this, NewTodoActivity.class),
-						EDIT_ACTIVITY_CODE);
-			}
-		}
-
-        if (item.getItemId() == R.id.send_msg) {
-            Log.d("TodoListActivity", "reached inside send_msg");
-            startActivityForResult(new Intent(this, NewSendMsgActivity.class),
-                    EDIT_ACTIVITY_CODE);
+        if (item.getItemId() == R.id.action_login) {
+            ParseLoginBuilder builder = new ParseLoginBuilder(this);
+            startActivityForResult(builder.build(), LOGIN_ACTIVITY_CODE);
         }
 
-		if (item.getItemId() == R.id.action_sync) {
-			syncTodosToParse();
-		}
+        else if(ParseUser.getCurrentUser() != null) {
+            if (item.getItemId() == R.id.action_new) {
+                // Make sure there's a valid user, anonymous
+                // or regular
+                startActivityForResult(new Intent(this, NewTodoActivity.class),
+                        EDIT_ACTIVITY_CODE);
 
-		if (item.getItemId() == R.id.action_logout) {
-			// Log out the current user
-			ParseUser.logOut();
-			// Create a new anonymous user
-			ParseAnonymousUtils.logIn(null);
-			// Update the logged in label info
-			updateLoggedInInfo();
-			// Clear the view
-			todoListAdapter.clear();
-			// Unpin all the current objects
-			ParseObject
-					.unpinAllInBackground(TodoListApplication.TODO_GROUP_NAME);
-		}
+            }
+            else if(item.getItemId() == R.id.activity_add_friend)
+            {
+                Intent intent = new Intent(this, FriendActivity.class);
+                startActivity(intent);
+            }
 
-		if (item.getItemId() == R.id.action_login) {
-			ParseLoginBuilder builder = new ParseLoginBuilder(this);
-			startActivityForResult(builder.build(), LOGIN_ACTIVITY_CODE);
-		}
+            else if (item.getItemId() == R.id.send_msg) {
+                Log.d("TodoListActivity", "reached inside send_msg");
+                startActivityForResult(new Intent(this, NewSendMsgActivity.class),
+                        EDIT_ACTIVITY_CODE);
+            }
 
-		return super.onOptionsItemSelected(item);
+            else if (item.getItemId() == R.id.action_sync) {
+                syncTodosToParse();
+            }
+
+            else if (item.getItemId() == R.id.action_logout) {
+                // Log out the current user
+                ParseUser.logOut();
+                // Create a new anonymous user
+                ParseAnonymousUtils.logIn(null);
+                // Update the logged in label info
+                updateLoggedInInfo();
+                // Clear the view
+                todoListAdapter.clear();
+                // Unpin all the current objects
+                ParseObject
+                        .unpinAllInBackground(TodoListApplication.TODO_GROUP_NAME);
+            }
+            return super.onOptionsItemSelected(item);
+        }
+        return false;
 	}
 
 	@Override
