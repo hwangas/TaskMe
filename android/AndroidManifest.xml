@@ -38,6 +38,7 @@
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="true" />
         </activity>
+        <activity android:name=".FriendActivity" />
     </application>
 
 </manifest>
