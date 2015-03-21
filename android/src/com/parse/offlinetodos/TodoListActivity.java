@@ -328,4 +328,5 @@ public class TodoListActivity extends Activity {
 	private static class ViewHolder {
 		TextView todoTitle;
 	}
+
 }
