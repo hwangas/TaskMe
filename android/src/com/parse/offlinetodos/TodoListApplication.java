@@ -20,7 +20,7 @@ public class TodoListApplication extends Application {
 		
 		// enable the Local Datastore
 		Parse.enableLocalDatastore(getApplicationContext());
-		Parse.initialize(this, "YOUR_APP_ID", "YOUR_CLIENT_KEY");
+        Parse.initialize(this, "H2087faZJdp23ZDEstriQ1wjjsR6JT5gWIPdx06Z", "5kJESLyyujCILT434DXEfgDx2Bxc2BtU2IKMjlhk");
 		ParseUser.enableAutomaticUser();
 		ParseACL defaultACL = new ParseACL();
 		ParseACL.setDefaultACL(defaultACL, true);	
