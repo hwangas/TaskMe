@@ -7,6 +7,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONObject;
+
 @ParseClassName("Todo")
 public class Todo extends ParseObject {
 	
@@ -30,8 +32,6 @@ public class Todo extends ParseObject {
 
     public ParseUser getReader() { return getParseUser("reader"); }
 
-    /////////////////
-
     public void setMonth(int month) { put("month", month); }
 
     public void setStatus(boolean status) { put("status", false); }
@@ -47,8 +47,6 @@ public class Todo extends ParseObject {
     public int getDay() { return getInt("day"); }
 
     public int getYear() { return getInt("year"); }
-
-    ///////////////
 
     public void setHour(int hour) { put("hour", hour);}
 
