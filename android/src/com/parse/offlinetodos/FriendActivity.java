@@ -23,7 +23,7 @@ public class FriendActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_activity);
     }
-
+//hi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
