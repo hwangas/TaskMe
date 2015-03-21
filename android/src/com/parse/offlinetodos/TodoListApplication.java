@@ -22,6 +22,7 @@ public class TodoListApplication extends Application {
 		Parse.enableLocalDatastore(getApplicationContext());
         Parse.initialize(this, "H2087faZJdp23ZDEstriQ1wjjsR6JT5gWIPdx06Z", "5kJESLyyujCILT434DXEfgDx2Bxc2BtU2IKMjlhk");
 		ParseUser.enableAutomaticUser();
+        ParseUser.getCurrentUser().saveInBackground();
 		ParseACL defaultACL = new ParseACL();
 		ParseACL.setDefaultACL(defaultACL, true);	
 	}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="activity_add_friend">activity add friend</string>
     <string name="activity_send_msg">activity send msg</string>
     <string name="receiver_name">Receiver name</string>
     <string name="todo_title">todo title</string>

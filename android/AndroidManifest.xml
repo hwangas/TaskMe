@@ -36,6 +36,10 @@
             android:label="@string/activity_send_msg" >
         </activity>
         <activity
+            android:name=".FriendActivity"
+            android:label="@string/activity_add_friend" >
+        </activity>
+        <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:label="@string/log_in"
             android:launchMode="singleTop" >
