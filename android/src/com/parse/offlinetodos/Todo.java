@@ -30,7 +30,29 @@ public class Todo extends ParseObject {
 
     public ParseUser getReader() { return getParseUser("reader"); }
 
-    //public void setDate()
+    /////////////////
+
+    public void setMonth(int month) { put("month", month); }
+
+    public void setDay(int day) { put("day", day); }
+
+    public void setYear(int year) { put("year", year); }
+
+    public int getMonth() { return getInt("month"); }
+
+    public int getDay() { return getInt("day"); }
+
+    public int getYear() { return getInt("year"); }
+
+    ///////////////
+
+    public void setHour(int hour) { put("hour", hour);}
+
+    public int getHour() { return getInt("hour"); }
+
+    public void setMin(int minute) { put("minute", minute); }
+
+    public int getMin() { return getInt("minute"); }
 
 	public boolean isDraft() {
 		return getBoolean("isDraft");

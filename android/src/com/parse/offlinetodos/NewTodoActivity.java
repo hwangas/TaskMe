@@ -1,11 +1,14 @@
 package com.parse.offlinetodos;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -19,8 +22,12 @@ public class NewTodoActivity extends Activity {
 	private Button saveButton;
 	private Button deleteButton;
 	private EditText todoText;
+    private TimePicker new_todo_time_picker;
+    private DatePicker new_todo_date_picker;
 	private Todo todo;
 	private String todoId = null;
+    private int hour;
+    private int min;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,10 @@ public class NewTodoActivity extends Activity {
 		todoText = (EditText) findViewById(R.id.todo_text);
 		saveButton = (Button) findViewById(R.id.saveButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
+        new_todo_time_picker = (TimePicker) findViewById(R.id.new_todo_time_picker);
+        new_todo_date_picker = (DatePicker) findViewById(R.id.new_todo_date_picker);
+        hour = -1;
+        min = -1;
 
 		if (todoId == null) {
 			todo = new Todo();
@@ -51,11 +62,13 @@ public class NewTodoActivity extends Activity {
 						todo = object;
 						todoText.setText(todo.getTitle());
 						deleteButton.setVisibility(View.VISIBLE);
+                        new_todo_time_picker.setCurrentHour(todo.getHour());
+                        new_todo_time_picker.setCurrentMinute(todo.getMin());
+                        new_todo_date_picker.updateDate(todo.getYear(), todo.getMonth(), todo.getDay());
 					}
 				}
 
 			});
-
 		}
 
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -66,6 +79,12 @@ public class NewTodoActivity extends Activity {
 				todo.setTitle(todoText.getText().toString());
 				todo.setDraft(true);
 				todo.setAuthor(ParseUser.getCurrentUser());
+                todo.setHour(hour);
+                todo.setMin(min);
+                todo.setMonth(new_todo_date_picker.getMonth());
+                todo.setDay(new_todo_date_picker.getDayOfMonth());
+                todo.setYear(new_todo_date_picker.getYear());
+
 				todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME,
 						new SaveCallback() {
 
@@ -102,6 +121,13 @@ public class NewTodoActivity extends Activity {
 
 		});
 
+        new_todo_time_picker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                min = minute;
+                hour = hourOfDay;
+            }
+        });
 	}
 
 }
