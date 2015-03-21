@@ -174,7 +174,7 @@ public class FriendActivity extends Activity {
                         if(parseUser == null) {
                             Log.d("onOptionsItemSelected", "u fuked up");
                             //throw new exception(e);
-                        } else {x`
+                        } else {
                             friend_.addFriend(parseUser);
                             friend_.saveInBackground();
                             friendListView = refresh();

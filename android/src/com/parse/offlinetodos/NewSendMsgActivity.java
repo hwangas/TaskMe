@@ -44,6 +44,7 @@ public class NewSendMsgActivity extends Activity {
             todoId = getIntent().getExtras().getString("ID");
         }
 
+
         todoText = (EditText) findViewById(R.id.todo_text);
         receiver_name = (EditText) findViewById(R.id.receiver_name);
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -92,39 +93,42 @@ public class NewSendMsgActivity extends Activity {
                 todo.setYear(new_todo_date_picker.getYear());
                 todo.setAuthor(todo.getAuthor());
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
-                query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        if (e == null) {
-                            todo.setReader((ParseUser) object);
-                        } else {
-                            throw new RuntimeException("the given receiver name wasn't valid!");
-                        }
-                    }
-                });
-
-
-                todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME,
-                        new SaveCallback() {
-
-                            @Override
-                            public void done(ParseException e) {
-                                if (isFinishing()) {
-                                    return;
-                                }
-                                if (e == null) {
-                                    setResult(Activity.RESULT_OK);
-                                    finish();
-                                } else {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Error saving: " + e.getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                }
+                synchronized (this) {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+                    query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseObject>() {
+                        public void done(ParseObject object, ParseException e) {
+                            if (e == null) {
+                                todo.setReader((ParseUser) object);
+                            } else {
+                                throw new RuntimeException("the given receiver name wasn't valid!");
                             }
+                        }
+                    });
+                }
+                ;
 
-                        });
-            }
+                synchronized (this) {
+                    todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME,
+                            new SaveCallback() {
 
+                                @Override
+                                public void done(ParseException e) {
+                                    if (isFinishing()) {
+                                        return;
+                                    }
+                                    if (e == null) {
+                                        setResult(Activity.RESULT_OK);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Error saving: " + e.getMessage(),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                            });
+                }
+            };
         });
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
