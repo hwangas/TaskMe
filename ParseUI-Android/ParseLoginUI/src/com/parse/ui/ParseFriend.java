@@ -1,4 +1,4 @@
-package com.parse.offlinetodos;
+package com.parse.ui;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -11,14 +11,14 @@ import org.json.JSONArray;
  * Created by Anna Hwang on 3/21/2015.
  */
 @ParseClassName("Friend")
-public class Friend extends ParseObject {
+public class ParseFriend extends ParseObject {
 
     private JSONArray arr = new JSONArray();
     private ParseUser person = null;
 
-    public Friend(){}
+    public ParseFriend(){}
 
-    public Friend(ParseUser person_) {
+    public ParseFriend(ParseUser person_) {
         person = person_;
     }
 
@@ -38,8 +38,8 @@ public class Friend extends ParseObject {
     }
     */
 
-    public static ParseQuery<Friend> getQuery() {
-        return ParseQuery.getQuery(Friend.class);
+    public static ParseQuery<ParseFriend> getQuery() {
+        return ParseQuery.getQuery(ParseFriend.class);
     }
 
 }

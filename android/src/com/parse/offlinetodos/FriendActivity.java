@@ -2,10 +2,8 @@ package com.parse.offlinetodos;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,38 +14,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.parse.ParseAnonymousUtils;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
-import com.parse.ui.ParseLoginBuilder;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
+import com.parse.ui.ParseFriend;
 
 /**
  * Created by Nick on 3/21/2015.
  */
 public class FriendActivity extends Activity {
 
-    private Friend friend_;
+    private ParseFriend friend_;
     private MenuItem action_friend;
     private EditText editText2;
     private KeyListener originalKeyListener;
     private Button buttonShowIme;
     private LayoutInflater inflater;
-    private ParseQueryAdapter<Friend> friendListAdapter;
-    private ParseQueryAdapter.QueryFactory<Friend> friendQueryFactory;
+    private ParseQueryAdapter<ParseFriend> friendListAdapter;
+    private ParseQueryAdapter.QueryFactory<ParseFriend> friendQueryFactory;
     private ListView friendListView;
 
     @Override
@@ -61,9 +51,9 @@ public class FriendActivity extends Activity {
         getFriend();
 
         // Set up the Parse query to use in the adapter
-        friendQueryFactory = new ParseQueryAdapter.QueryFactory<Friend>() {
-            public ParseQuery<Friend> create() {
-                ParseQuery<Friend> query = Friend.getQuery();
+        friendQueryFactory = new ParseQueryAdapter.QueryFactory<ParseFriend>() {
+            public ParseQuery<ParseFriend> create() {
+                ParseQuery<ParseFriend> query = ParseFriend.getQuery();
                 query.orderByDescending("createdAt");
                 query.fromLocalDatastore();
                 return query;
@@ -83,7 +73,7 @@ public class FriendActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Friend f = friendListAdapter.getItem(position);
+                ParseFriend f = friendListAdapter.getItem(position);
                 //openEditView(f);
             }
         });
@@ -122,10 +112,10 @@ public class FriendActivity extends Activity {
 
     public void getFriend()
     {
-        ParseQuery<Friend> person = ParseQuery.getQuery("Friend");
+        ParseQuery<ParseFriend> person = ParseQuery.getQuery("Friend");
         person.whereEqualTo("person", ParseUser.getCurrentUser());
-        person.getFirstInBackground(new GetCallback<Friend>() {
-            public void done(Friend f, com.parse.ParseException e) {
+        person.getFirstInBackground(new GetCallback<ParseFriend>() {
+            public void done(ParseFriend f, com.parse.ParseException e) {
                 if(f == null) {
                     friend_ = null;
                 } else {
@@ -176,7 +166,8 @@ public class FriendActivity extends Activity {
                 });
                 */
                 ParseQuery<ParseUser> friend = ParseQuery.getQuery("ParseUser");
-                friend.whereEqualTo("username", ((EditText )findViewById(R.id.edit_text_2)).getText().toString());
+                Log.d("AOWEMGOAWM", ((EditText) findViewById(R.id.edit_text_2)).getText().toString());
+                friend.whereEqualTo("username", ((EditText) findViewById(R.id.edit_text_2)).getText().toString());
                 friend.getFirstInBackground(new GetCallback<ParseUser>() {
                     @Override
                     public void done(ParseUser parseUser, com.parse.ParseException e) {
@@ -185,6 +176,7 @@ public class FriendActivity extends Activity {
                             //throw new exception(e);
                         } else {x`
                             friend_.addFriend(parseUser);
+                            friend_.saveInBackground();
                             friendListView = refresh();
                         }
                     }
@@ -200,15 +192,15 @@ public class FriendActivity extends Activity {
         // DO THE FRAGMENT
     }
 
-    private class FriendListAdapter extends ParseQueryAdapter<Friend> {
+    private class FriendListAdapter extends ParseQueryAdapter<ParseFriend> {
 
         public FriendListAdapter(Context context,
-                                 ParseQueryAdapter.QueryFactory<Friend> queryFactory) {
+                                 ParseQueryAdapter.QueryFactory<ParseFriend> queryFactory) {
             super(context, queryFactory);
         }
 
         //@Override
-        public View getItemView(Friend friend, View view, ViewGroup parent) {
+        public View getItemView(ParseFriend friend, View view, ViewGroup parent) {
             ViewHolder holder;
             if (view == null) {
                 view = inflater.inflate(R.layout.friend_activity, parent, false);

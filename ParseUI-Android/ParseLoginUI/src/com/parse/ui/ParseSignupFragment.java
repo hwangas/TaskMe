@@ -36,6 +36,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import org.json.JSONArray;
+
 /**
  * Fragment for the user signup screen.
  */
@@ -66,6 +68,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
     signupFragment.setArguments(args);
     return signupFragment;
   }
+
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -171,16 +174,17 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
     } else if (name != null && name.length() == 0) {
       showToast(R.string.com_parse_ui_no_name_toast);
     } else {
-      ParseUser user = new ParseUser();
+        ParseUser user = new ParseUser();
+        user.put("friends", new JSONArray());
 
-      // Set standard fields
-      user.setUsername(username);
-      user.setPassword(password);
-      user.setEmail(email);
+          // Set standard fields
+          user.setUsername(username);
+          user.setPassword(password);
+          user.setEmail(email);
 
-      // Set additional custom fields only if the user filled it out
-      if (name.length() != 0) {
-        user.put(USER_OBJECT_NAME_FIELD, name);
+          // Set additional custom fields only if the user filled it out
+          if (name.length() != 0) {
+                user.put(USER_OBJECT_NAME_FIELD, name);
       }
 
       loadingStart();
@@ -228,4 +232,6 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
   private void signupSuccess() {
     onLoginSuccessListener.onLoginSuccess();
   }
+
+
 }

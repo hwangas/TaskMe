@@ -6,6 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.ui.ParseFriend;
 
 public class TodoListApplication extends Application {
 	
@@ -17,7 +18,7 @@ public class TodoListApplication extends Application {
 		
 		// add Todo subclass
 		ParseObject.registerSubclass(Todo.class);
-        ParseObject.registerSubclass(Friend.class);
+        ParseObject.registerSubclass(ParseFriend.class);
 		
 		// enable the Local Datastore
 		Parse.enableLocalDatastore(getApplicationContext());
