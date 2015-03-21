@@ -60,6 +60,7 @@ public class TodoListActivity extends Activity {
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
 
 		// Set up the Parse query to use in the adapter
+        // QUERY STUFF LOOK AT SEE HOW THEY DO MODIFY
 		ParseQueryAdapter.QueryFactory<Todo> factory = new ParseQueryAdapter.QueryFactory<Todo>() {
 			public ParseQuery<Todo> create() {
 				ParseQuery<Todo> query = Todo.getQuery();

@@ -19,6 +19,12 @@
         android:paddingTop="30dp" >
     </EditText>
 
+    <TimePickerDialog
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        </TimePickerDialog>
+
     <Button
         android:id="@+id/saveButton"
         android:layout_width="fill_parent"
