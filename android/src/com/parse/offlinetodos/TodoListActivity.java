@@ -33,6 +33,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.ui.ParseLoginBuilder;
 
+import org.json.JSONArray;
+
 public class TodoListActivity extends Activity {
 
 	private static final int LOGIN_ACTIVITY_CODE = 100;
@@ -59,7 +61,6 @@ public class TodoListActivity extends Activity {
 		noTodosView = (LinearLayout) findViewById(R.id.no_todos_view);
 		todoListView.setEmptyView(noTodosView);
 		loggedInInfoView = (TextView) findViewById(R.id.loggedin_info);
-        //MenuItem goToFriends = (MenuItem) findViewById(R.id.activity_add_friend);
 
 		// Set up the Parse query to use in the adapter
 		ParseQueryAdapter.QueryFactory<Todo> factory = new ParseQueryAdapter.QueryFactory<Todo>() {
@@ -137,7 +138,6 @@ public class TodoListActivity extends Activity {
 					loadFromParse();
 				}
 			}
-
 		}
 	}
 
@@ -170,12 +170,10 @@ public class TodoListActivity extends Activity {
             }
             else if(item.getItemId() == R.id.activity_add_friend)
             {
-                Intent intent = new Intent(this, FriendActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, FriendActivity.class));
             }
 
             else if (item.getItemId() == R.id.send_msg) {
-                Log.d("TodoListActivity", "reached inside send_msg");
                 startActivityForResult(new Intent(this, NewSendMsgActivity.class),
                         EDIT_ACTIVITY_CODE);
             }
@@ -194,8 +192,7 @@ public class TodoListActivity extends Activity {
                 // Clear the view
                 todoListAdapter.clear();
                 // Unpin all the current objects
-                ParseObject
-                        .unpinAllInBackground(TodoListApplication.TODO_GROUP_NAME);
+                ParseObject.unpinAllInBackground(TodoListApplication.TODO_GROUP_NAME);
             }
             return super.onOptionsItemSelected(item);
         }
@@ -205,8 +202,7 @@ public class TodoListActivity extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		boolean realUser = !ParseAnonymousUtils.isLinked(ParseUser
-				.getCurrentUser());
+		boolean realUser = !ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser());
 		menu.findItem(R.id.action_login).setVisible(!realUser);
 		menu.findItem(R.id.action_logout).setVisible(realUser);
 		return true;
@@ -219,48 +215,41 @@ public class TodoListActivity extends Activity {
 		NetworkInfo ni = cm.getActiveNetworkInfo();
 		if ((ni != null) && (ni.isConnected())) {
 			if (!ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
-				// If we have a network connection and a current logged in user,
-				// sync the
-				// todos
-
-				// In this app, local changes should overwrite content on the
-				// server.
-
 				ParseQuery<Todo> query = Todo.getQuery();
 				query.fromPin(TodoListApplication.TODO_GROUP_NAME);
 				query.whereEqualTo("isDraft", true);
 				query.findInBackground(new FindCallback<Todo>() {
 					public void done(List<Todo> todos, ParseException e) {
-						if (e == null) {
-							for (final Todo todo : todos) {
-								// Set is draft flag to false before
-								// syncing to Parse
-								todo.setDraft(false);
-								todo.saveInBackground(new SaveCallback() {
+                    if (e == null) {
+                        for (final Todo todo : todos) {
+                            // Set is draft flag to false before
+                            // syncing to Parse
+                            todo.setDraft(false);
+                            todo.saveInBackground(new SaveCallback() {
 
-									@Override
-									public void done(ParseException e) {
-										if (e == null) {
-											// Let adapter know to update view
-											if (!isFinishing()) {
-												todoListAdapter
-														.notifyDataSetChanged();
-											}
-										} else {
-											// Reset the is draft flag locally
-											// to true
-											todo.setDraft(true);
-										}
-									}
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        // Let adapter know to update view
+                                        if (!isFinishing()) {
+                                            todoListAdapter
+                                                    .notifyDataSetChanged();
+                                        }
+                                    } else {
+                                        // Reset the is draft flag locally
+                                        // to true
+                                        todo.setDraft(true);
+                                    }
+                                }
 
-								});
+                            });
 
-							}
-						} else {
-							Log.i("TodoListActivity",
-									"syncTodosToParse: Error finding pinned todos: "
-											+ e.getMessage());
-						}
+                        }
+                    } else {
+                        Log.i("TodoListActivity",
+                                "syncTodosToParse: Error finding pinned todos: "
+                                        + e.getMessage());
+                    }
 					}
 				});
 			} else {
@@ -282,7 +271,7 @@ public class TodoListActivity extends Activity {
 
 	private void loadFromParse() {
 		ParseQuery<Todo> query = Todo.getQuery();
-		query.whereEqualTo("author", ParseUser.getCurrentUser());
+		query.whereEqualTo("reader", ParseUser.getCurrentUser());
 		query.findInBackground(new FindCallback<Todo>() {
 			public void done(List<Todo> todos, ParseException e) {
 				if (e == null) {

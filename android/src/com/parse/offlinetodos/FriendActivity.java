@@ -36,14 +36,6 @@ import java.util.ArrayList;
  */
 public class FriendActivity extends Activity {
 
-    //private ParseFriend friend_;
-    private MenuItem action_friend;
-    private EditText editText2;
-    private KeyListener originalKeyListener;
-    private Button buttonShowIme;
-    private LayoutInflater inflater;
-    private ParseQueryAdapter<ParseFriend> friendListAdapter;
-    private ParseQueryAdapter.QueryFactory<ParseFriend> friendQueryFactory;
     private ListView listview;
     private ParseUser person;
 

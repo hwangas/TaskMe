@@ -23,7 +23,6 @@ import com.parse.SaveCallback;
  */
 public class NewSendMsgActivity extends Activity {
 
-    private ParseUser dest;
     private Button saveButton;
     private Button deleteButton;
     private EditText todoText;
@@ -34,19 +33,14 @@ public class NewSendMsgActivity extends Activity {
     private String todoId = null;
     private int hour;
     private int min;
+    private boolean VALID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_msg);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        dest = null;
-
-        // Fetch the todoId from the Extra data
-        if (getIntent().hasExtra("ID")) {
-            todoId = getIntent().getExtras().getString("ID");
-        }
-
+        VALID = false;
 
         todoText = (EditText) findViewById(R.id.todo_text);
         receiver_name = (EditText) findViewById(R.id.receiver_name);
@@ -56,6 +50,11 @@ public class NewSendMsgActivity extends Activity {
         new_todo_date_picker = (DatePicker) findViewById(R.id.new_todo_date_picker);
         hour = -1;
         min = -1;
+
+        // Fetch the todoId from the Extra data
+        if (getIntent().hasExtra("ID")) {
+            todoId = getIntent().getExtras().getString("ID");
+        }
 
         if (todoId == null) {
             todo = new Todo();
@@ -68,14 +67,14 @@ public class NewSendMsgActivity extends Activity {
 
                 @Override
                 public void done(Todo object, ParseException e) {
-                    if (!isFinishing()) {
-                        todo = object;
-                        todoText.setText(todo.getTitle());
-                        deleteButton.setVisibility(View.VISIBLE);
-                        new_todo_time_picker.setCurrentHour(todo.getHour());
-                        new_todo_time_picker.setCurrentMinute(todo.getMin());
-                        new_todo_date_picker.updateDate(todo.getYear(), todo.getMonth(), todo.getDay());
-                    }
+                if (!isFinishing()) {
+                    todo = object;
+                    todoText.setText(todo.getTitle());
+                    deleteButton.setVisibility(View.VISIBLE);
+                    new_todo_time_picker.setCurrentHour(todo.getHour());
+                    new_todo_time_picker.setCurrentMinute(todo.getMin());
+                    new_todo_date_picker.updateDate(todo.getYear(), todo.getMonth(), todo.getDay());
+                }
                 }
 
             });
@@ -101,33 +100,33 @@ public class NewSendMsgActivity extends Activity {
                     query.getFirstInBackground(new GetCallback<ParseUser>() {
                         public void done(ParseUser user, ParseException e) {
                             if (user == null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "It seems your pal isn't in touch!",
+                                        Toast.LENGTH_LONG).show();
                             } else {
                                 todo.setReader(user);
-                                Toast.makeText(getApplicationContext(),
-                                               "USERNAME: " + user.getUsername(),
-                                               Toast.LENGTH_LONG).show();
+                                VALID = true;
                             }
                         }
                     });
                 }
 
                 synchronized(this) {
-                    todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME,
-                        new SaveCallback() {
+                    todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME, new SaveCallback() {
 
-                            @Override
-                            public void done(ParseException e) {
-                                if (isFinishing()) {
-                                    return;
-                                }
-                                if (e == null) {
-                                    setResult(Activity.RESULT_OK);
-                                    finish();
-                                } else {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Error saving: " + e.getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                }
+                        @Override
+                        public void done(ParseException e) {
+                            if (isFinishing()) {
+                                return;
+                            }
+                            if (e == null) {
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Error saving: " + e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
                         }
                     });
                 }
