@@ -94,11 +94,11 @@ public class NewSendMsgActivity extends Activity {
                 todo.setAuthor(todo.getAuthor());
 
                 synchronized (this) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-                    query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
+                    ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseUser>() {
+                        public void done(ParseUser object, ParseException e) {
                             if (e == null) {
-                                todo.setReader((ParseUser) object);
+                                todo.setReader(object);
                             } else {
                                 throw new RuntimeException("the given receiver name wasn't valid!");
                             }
