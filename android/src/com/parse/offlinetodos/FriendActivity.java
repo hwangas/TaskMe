@@ -54,6 +54,8 @@ public class FriendActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_activity);
+        person = ParseUser.getCurrentUser();
+        listview = (ListView) findViewById(R.id.friendListView);
 
         addAndRefresh(null);
 
@@ -68,10 +70,7 @@ public class FriendActivity extends Activity {
     public void addAndRefresh(ParseUser friend)
     {
         boolean alreadyAdded = false;
-        listview = (ListView)findViewById(R.id.friendListView);
-        person = ParseUser.getCurrentUser();
-
-        /** Defining the ArrayAdapter to set items to ListView */
+        list = new ArrayList<String>();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
         JSONArray friends = ParseUser.getCurrentUser().getJSONArray("friends");
@@ -79,18 +78,22 @@ public class FriendActivity extends Activity {
             Toast.makeText(getApplicationContext(), i + ": " + ((ParseUser) friends.opt(i)).getUsername(),
                     Toast.LENGTH_LONG).show();
 
-            if(friend != null && !((ParseUser) friends.opt(i)).getUsername().equals(friend.getUsername())) {
-                list.add(((ParseUser) friends.opt(i)).getUsername());
-            } else {
+            if(friend != null &&
+               ((ParseUser) friends.opt(i)).getUsername().equals(friend.getUsername())) {
                 alreadyAdded = true;
             }
+
+            list.add(((ParseUser) friends.opt(i)).getUsername());
         }
 
         if(friend != null && !alreadyAdded) {
-            Log.d("added friend!", friend.getUsername());
             list.add(friend.getUsername());
+            JSONArray arr = person.getJSONArray("friends");
+            arr.put(friend);
+            person.put("friends", arr);
         }
 
+        person.saveInBackground();
         /** Setting the adapter to the ListView */
         listview.setAdapter(adapter);
     }
@@ -107,6 +110,7 @@ public class FriendActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId()) {
+
             case R.id.action_friend:
                 ParseQuery<ParseUser> friend = ParseUser.getQuery();
                 friend.whereEqualTo("username", ((EditText) findViewById(R.id.edit_text_2)).getText().toString());
@@ -123,6 +127,7 @@ public class FriendActivity extends Activity {
                     }
                 });
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
             }
