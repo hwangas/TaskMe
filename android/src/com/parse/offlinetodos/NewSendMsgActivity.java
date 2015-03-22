@@ -92,22 +92,37 @@ public class NewSendMsgActivity extends Activity {
                 todo.setMonth(new_todo_date_picker.getMonth());
                 todo.setDay(new_todo_date_picker.getDayOfMonth());
                 todo.setYear(new_todo_date_picker.getYear());
-                todo.setAuthor(todo.getAuthor());
+                //todo.setAuthor(todo.getAuthor());
 
                 synchronized (this) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
                     ParseUser user = null;
-                    query.whereEqualTo("username",receiver_name.getText().toString());
-                    try{
+                    query.whereEqualTo("username", receiver_name.getText().toString());
+                    query.getFirstInBackground(new GetCallback<ParseUser>() {
+                        public void done(ParseUser user, ParseException e) {
+                            if (user == null) {
+                                Log.d("score", "FUCK.");
+                            } else {
+                                Log.d("score", "YEAH");
+                                todo.setReader(user);
+                            }
+                        }
+                    });
+                }
 
+
+/*
+
+                    }
+                    try{
                         user = (query.getFirst());
                         Log.d("QUERY", (user.getUsername()));
                         todo.setReader(user);
                     }
-                    catch(Exception e)
-                    {
+                    catch(Exception e) {
                         Log.d("shit fuck", "more");
                     }
+                    */
               /*      query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseUser>() {
                         public void done(ParseUser object, ParseException e) {
                             if (e == null) {
@@ -117,11 +132,10 @@ public class NewSendMsgActivity extends Activity {
                             }
                         }
                     });
-               */
                 }
-                ;
 
-                synchronized (this) {
+               */
+                synchronized(this) {
                     todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME,
                             new SaveCallback() {
 

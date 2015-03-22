@@ -74,7 +74,7 @@ public class FriendActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
         JSONArray friends = ParseUser.getCurrentUser().getJSONArray("friends");
-        for(int i = 0; i < friends.length(); ++i) {
+        for(int i = 0; i < friends.length() - 1; ++i) {
             Toast.makeText(getApplicationContext(), i + ": " + ((ParseUser) friends.opt(i)).getUsername(),
                     Toast.LENGTH_LONG).show();
 
