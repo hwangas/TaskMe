@@ -23,6 +23,7 @@ import com.parse.SaveCallback;
  */
 public class NewSendMsgActivity extends Activity {
 
+    private ParseUser dest;
     private Button saveButton;
     private Button deleteButton;
     private EditText todoText;
@@ -39,6 +40,7 @@ public class NewSendMsgActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_msg);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        dest = null;
 
         // Fetch the todoId from the Extra data
         if (getIntent().hasExtra("ID")) {
@@ -92,69 +94,42 @@ public class NewSendMsgActivity extends Activity {
                 todo.setMonth(new_todo_date_picker.getMonth());
                 todo.setDay(new_todo_date_picker.getDayOfMonth());
                 todo.setYear(new_todo_date_picker.getYear());
-                //todo.setAuthor(todo.getAuthor());
 
                 synchronized (this) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    ParseUser user = null;
                     query.whereEqualTo("username", receiver_name.getText().toString());
                     query.getFirstInBackground(new GetCallback<ParseUser>() {
                         public void done(ParseUser user, ParseException e) {
                             if (user == null) {
-                                Log.d("score", "FUCK.");
                             } else {
-                                Log.d("score", "YEAH");
                                 todo.setReader(user);
+                                Toast.makeText(getApplicationContext(),
+                                               "USERNAME: " + user.getUsername(),
+                                               Toast.LENGTH_LONG).show();
                             }
                         }
                     });
                 }
 
-
-/*
-
-                    }
-                    try{
-                        user = (query.getFirst());
-                        Log.d("QUERY", (user.getUsername()));
-                        todo.setReader(user);
-                    }
-                    catch(Exception e) {
-                        Log.d("shit fuck", "more");
-                    }
-                    */
-              /*      query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseUser>() {
-                        public void done(ParseUser object, ParseException e) {
-                            if (e == null) {
-                                todo.setReader(object);
-                            } else {
-                                throw new RuntimeException("the given receiver name wasn't valid!");
-                            }
-                        }
-                    });
-                }
-
-               */
                 synchronized(this) {
                     todo.pinInBackground(TodoListApplication.TODO_GROUP_NAME,
-                            new SaveCallback() {
+                        new SaveCallback() {
 
-                                @Override
-                                public void done(ParseException e) {
-                                    if (isFinishing()) {
-                                        return;
-                                    }
-                                    if (e == null) {
-                                        setResult(Activity.RESULT_OK);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(),
-                                                "Error saving: " + e.getMessage(),
-                                                Toast.LENGTH_LONG).show();
-                                    }
+                            @Override
+                            public void done(ParseException e) {
+                                if (isFinishing()) {
+                                    return;
                                 }
-
-                            });
+                                if (e == null) {
+                                    setResult(Activity.RESULT_OK);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Error saving: " + e.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                        }
+                    });
                 }
             };
         });
