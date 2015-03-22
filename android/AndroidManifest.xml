@@ -47,6 +47,10 @@
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="true" />
         </activity>
+
+        <receiver android:name=".AlarmReceiver"
+            android:enabled="false">
+        </receiver>
     </application>
 
 </manifest>

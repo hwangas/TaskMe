@@ -188,6 +188,7 @@ public class NewSendMsgActivity extends Activity {
                                 alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                                         1000 * 60 * 20, alarmIntent);
 
+
                             }
                         })
                         .setNegativeButton("No thanks!", new DialogInterface.OnClickListener() {
