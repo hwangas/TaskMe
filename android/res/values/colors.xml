@@ -10,8 +10,8 @@
     <color name="com_parse_ui_parse_login_display_text">@android:color/black</color>
     <color name="login_bg">#9de24f</color>
     <color name="login_recover">#ffff93</color>
-    <color name="main_bg">#a9d3f4</color>
-    <color name="main_inner">#a9d3f4</color>
+    <color name="main_bg">#9fd7fb</color>
+    <color name="main_inner">#cfebfd</color>
     <color name="no_items">#4b3528</color>
     <color name="friend_bg">#fab387</color>
     <color name="friend_inner">#fde8db</color>
