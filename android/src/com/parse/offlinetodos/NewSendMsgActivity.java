@@ -2,6 +2,7 @@ package com.parse.offlinetodos;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -95,7 +96,17 @@ public class NewSendMsgActivity extends Activity {
 
                 synchronized (this) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseUser>() {
+                    ParseObject user = null;
+                    query.whereEqualTo("username",receiver_name.getText().toString());
+                    try{
+                        user = query.getFirst();
+                        todo.setReader((ParseUser)user);
+                    }
+                    catch(Exception e)
+                    {
+                        Log.d("shit fuck", "more");
+                    }
+              /*      query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseUser>() {
                         public void done(ParseUser object, ParseException e) {
                             if (e == null) {
                                 todo.setReader(object);
@@ -104,6 +115,7 @@ public class NewSendMsgActivity extends Activity {
                             }
                         }
                     });
+               */
                 }
                 ;
 
