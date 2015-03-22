@@ -266,7 +266,6 @@ public class TodoListActivity extends Activity {
 					"Your device appears to be offline. Some todos may not have been synced to Parse.",
 					Toast.LENGTH_LONG).show();
 		}
-
 	}
 
 	private void loadFromParse() {
