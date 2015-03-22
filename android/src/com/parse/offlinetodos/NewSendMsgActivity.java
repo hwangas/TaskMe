@@ -1,6 +1,15 @@
 package com.parse.offlinetodos;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +20,15 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.Calendar;
 
 /**
  * Created by Anna Hwang on 3/21/2015.
@@ -33,9 +45,12 @@ public class NewSendMsgActivity extends Activity {
     private String todoId = null;
     private int hour;
     private int min;
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_msg);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -99,14 +114,13 @@ public class NewSendMsgActivity extends Activity {
                     ParseUser user = null;
                     query.whereEqualTo("username",receiver_name.getText().toString());
                     try{
-
                         user = (query.getFirst());
                         Log.d("QUERY", (user.getUsername()));
                         todo.setReader(user);
                     }
                     catch(Exception e)
                     {
-                        Log.d("shit fuck", "more");
+                        Log.d("please work", "more");
                     }
               /*      query.getInBackground(receiver_name.getText().toString(), new GetCallback<ParseUser>() {
                         public void done(ParseUser object, ParseException e) {
@@ -165,5 +179,47 @@ public class NewSendMsgActivity extends Activity {
                 hour = hourOfDay;
             }
         });
+
+
+        class DialogFrag extends DialogFragment {
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                // Use the Builder class for convenient dialog construction
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("TASK TO DO")
+                        .setPositiveButton("Accept request", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTimeInMillis(System.currentTimeMillis());
+                                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                                calendar.set(Calendar.MINUTE, min);
+
+
+                                alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                                        1000 * 60 * 20, alarmIntent);
+
+                            }
+                        })
+                        .setNegativeButton("No thanks!", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                return builder.create();
+            }
+        }
+
+        FragmentManager manager = getFragmentManager();
+
+        DialogFrag Alarm = new DialogFrag();
+        Alarm.show(manager, "TASK");
+
+
+
+
+
     }
+
 }
