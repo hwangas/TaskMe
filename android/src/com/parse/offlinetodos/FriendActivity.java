@@ -38,8 +38,6 @@ public class FriendActivity extends Activity {
 
     private ListView listview;
     private ParseUser person;
-
-    /** Items entered by the user is stored in this ArrayList variable */
     ArrayList<String> list = new ArrayList<String>();
 
     @Override
@@ -54,8 +52,7 @@ public class FriendActivity extends Activity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-            }
+                                    long id) {}
         });
     }
 
@@ -67,9 +64,6 @@ public class FriendActivity extends Activity {
 
         JSONArray friends = ParseUser.getCurrentUser().getJSONArray("friends");
         for(int i = 0; i < friends.length() - 1; ++i) {
-            Toast.makeText(getApplicationContext(), i + ": " + ((ParseUser) friends.opt(i)).getUsername(),
-                    Toast.LENGTH_LONG).show();
-
             if(friend != null &&
                ((ParseUser) friends.opt(i)).getUsername().equals(friend.getUsername())) {
                 alreadyAdded = true;
@@ -86,13 +80,11 @@ public class FriendActivity extends Activity {
         }
 
         person.saveInBackground();
-        /** Setting the adapter to the ListView */
         listview.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_friend_activity, menu);
         return super.onCreateOptionsMenu(menu);
