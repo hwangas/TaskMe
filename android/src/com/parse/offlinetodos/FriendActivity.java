@@ -36,14 +36,6 @@ import java.util.ArrayList;
  */
 public class FriendActivity extends Activity {
 
-    //private ParseFriend friend_;
-    private MenuItem action_friend;
-    private EditText editText2;
-    private KeyListener originalKeyListener;
-    private Button buttonShowIme;
-    private LayoutInflater inflater;
-    private ParseQueryAdapter<ParseFriend> friendListAdapter;
-    private ParseQueryAdapter.QueryFactory<ParseFriend> friendQueryFactory;
     private ListView listview;
     private ParseUser person;
 
@@ -74,7 +66,7 @@ public class FriendActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
         JSONArray friends = ParseUser.getCurrentUser().getJSONArray("friends");
-        for(int i = 0; i < friends.length(); ++i) {
+        for(int i = 0; i < friends.length() - 1; ++i) {
             Toast.makeText(getApplicationContext(), i + ": " + ((ParseUser) friends.opt(i)).getUsername(),
                     Toast.LENGTH_LONG).show();
 

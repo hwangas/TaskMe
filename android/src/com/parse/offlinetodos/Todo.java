@@ -28,7 +28,7 @@ public class Todo extends ParseObject {
 		put("author", currentUser);
 	}
 
-    public void setReader(ParseUser receiver) { put("reader", receiver); }
+    public void setReader(ParseUser receiver) { put("reader", receiver.getObjectId()); }
 
     public ParseUser getReader() { return getParseUser("reader"); }
 
