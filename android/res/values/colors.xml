@@ -8,7 +8,15 @@
     <color name="com_parse_ui_parse_login_help_button_label_focus">#CCCCCC</color>
     <color name="com_parse_ui_parse_login_text_hint">#AAAAAA</color>
     <color name="com_parse_ui_parse_login_display_text">@android:color/black</color>
-    <color name="sky_blue">#87cefa</color>
+
+    <color name="login_bg">#9de24f</color>
+    <color name="login_recover">#ffff93</color>
+
+    <color name="main_bg">#87cefa</color>
+    <color name="main_inner">"#e7f5fe"</color>
     <color name="no_items">#4b3528</color>
+
+    <color name="friend_bg">#fab387</color>
+    <color name="friend_inner">#fde8db</color>
 
 </resources>
