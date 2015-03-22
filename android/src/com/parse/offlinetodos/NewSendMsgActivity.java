@@ -8,6 +8,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -43,8 +44,6 @@ public class NewSendMsgActivity extends Activity {
     private int hour;
     private int min;
     private boolean VALID;
-    private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,9 +170,14 @@ public class NewSendMsgActivity extends Activity {
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 // Use the Builder class for convenient dialog construction
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("TASK TO DO")
+                builder.setMessage(todo.getTitle())
                         .setPositiveButton("Accept request", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+
+                                Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+                                PendingIntent alarmIntent = PendingIntent.getBroadcast(getBaseContext(), 0, intent, 0);
+                                AlarmManager alarmMgr = (AlarmManager)getBaseContext().getSystemService(getBaseContext().ALARM_SERVICE);
+
 
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.setTimeInMillis(System.currentTimeMillis());
