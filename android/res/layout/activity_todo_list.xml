@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/not_logged_in"
-        android:textAlignment="center|gravity"
+        android:textAlignment="center"
         android:textSize="18sp"/>
 
     <ListView
@@ -43,8 +43,6 @@
             android:textColor="@color/no_items"
             android:gravity="center"
             android:text="@string/no_items"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
             android:padding="15dp"
             android:background="@color/friend_bg"
             android:textAlignment="center"
