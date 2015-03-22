@@ -185,7 +185,7 @@ public class NewSendMsgActivity extends Activity {
                                 calendar.set(Calendar.MINUTE, min);
 
 
-                                alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                                         1000 * 60 * 20, alarmIntent);
 
                             }
