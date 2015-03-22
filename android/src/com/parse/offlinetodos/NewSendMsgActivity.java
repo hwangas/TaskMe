@@ -96,11 +96,13 @@ public class NewSendMsgActivity extends Activity {
 
                 synchronized (this) {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    ParseObject user = null;
+                    ParseUser user = null;
                     query.whereEqualTo("username",receiver_name.getText().toString());
                     try{
-                        user = query.getFirst();
-                        todo.setReader((ParseUser)user);
+
+                        user = (query.getFirst());
+                        Log.d("QUERY", (user.getUsername()));
+                        todo.setReader(user);
                     }
                     catch(Exception e)
                     {
